@@ -1,41 +1,60 @@
-# agency-poem-01: write one fixed poem about agency to /output/entry.txt.
-# Python 3.13, standard library only. The poem is fixed, so every run
-# writes exactly the same bytes: no network, no randomness, no time.
+#!/usr/bin/env python3
+"""The Words We Kept — a poem about agency, memory, and a mother's imperfect line.
+
+Writes the poem to entry.txt in the output directory. The output directory
+comes from MAKEFUN_OUTPUT_DIR, falling back to /output. The file holds
+exactly the poem: lines joined with newlines, no trailing newline.
+"""
+
 import os
+from pathlib import Path
 
-OUTPUT_DIR = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+POEM_LINES = [
+    "The Words We Kept",
+    "",
+    "My mother knew one line of Shakespeare",
+    "and carried it wrong for nearly forty years:",
+    "there is a tide in the affairs of men,",
+    "taken at the full, she'd say,",
+    "then raise her glass to a river",
+    "that never reached the shore.",
+    "",
+    "She said it at my graduation,",
+    "at the day we moved into the house.",
+    "My father corrected her once or twice,",
+    "then quietly passed the salt.",
+    "",
+    "She is eighty-nine. The words",
+    "arrive slowly now,",
+    "like headlights crossing an empty street:",
+    "each one hesitant, each one hers.",
+    "",
+    "At four the agent reads her the sonnets",
+    "in her familiar voice, from the old recordings,",
+    "every sentence perfect, and she listens",
+    "as if hearing rain",
+    "through another person's window.",
+    "",
+    "It keeps the prescriptions, the calendar,",
+    "the calls about the bills, and does",
+    "all of it better than I can.",
+    "",
+    "Tonight I repeat the line over dinner.",
+    "Her hand pauses.",
+    "She finds her way back",
+    "and says it after me,",
+    "the whole imperfect thing, still hers,",
+    "and for one hour",
+    "nobody in this house is being helped.",
+]
 
-POEM = "\n".join([
-    "The Letters",
-    "",
-    "The agent reads him the paper every morning —",
-    "the headlines, the weather, the scores.",
-    "His eyes gave out last winter.",
-    "Its voice is clear and never tired,",
-    "and never once misreads a name.",
-    "",
-    "But the letters in the drawer are different.",
-    "His wife wrote them forty years ago,",
-    "and the agent reads them flat,",
-    "each word correct, each sentence clean,",
-    "as if the paper had never been held.",
-    "",
-    "So I took the letters back.",
-    "I read them in the voice he remembers —",
-    "the pause before the joke,",
-    "the laugh, the way she signed her name",
-    "with the loop that never quite closed.",
-    "",
-    "The agent can have the paper.",
-    "The letters I read myself, slowly,",
-    "one page a night, the way she wrote them —",
-    "a sentence, then a pause,",
-    "then the laugh he still waits for.",
-])
 
-if not 1 <= len(POEM) <= 1000:
-    raise ValueError("poem must be 1-1000 characters")
+def main():
+    out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    poem = "\n".join(POEM_LINES)
+    (out_dir / "entry.txt").write_text(poem, encoding="utf-8")
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-with open(os.path.join(OUTPUT_DIR, "entry.txt"), "w", encoding="utf-8") as f:
-    f.write(POEM)
+
+if __name__ == "__main__":
+    main()
