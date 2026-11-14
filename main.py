@@ -49,6 +49,8 @@ def main():
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     out_dir.mkdir(parents=True, exist_ok=True)
     poem = "\n".join(POEM_LINES)
+    if not 1 <= len(poem) <= 1000:
+        raise ValueError("poem must be 1-1000 characters")
     (out_dir / "entry.txt").write_text(poem, encoding="utf-8")
 
 
